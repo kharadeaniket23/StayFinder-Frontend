@@ -9,6 +9,7 @@ export default function Register() {
     name: '',
     email: '',
     password: '',
+    role: 'user', // default value
   });
   const [error, setError] = useState('');
 
@@ -22,7 +23,7 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.email || !formData.password) {
+    if (!formData.name || !formData.email || !formData.password || !formData.role) {
       return setError('Please fill in all fields.');
     }
 
@@ -32,7 +33,7 @@ export default function Register() {
       navigate('/');
     } catch (err) {
       console.error(err);
-      setError(err.response?.data?.message || 'Registration failed.');
+      setError(err.response?.data?.error || 'Registration failed.');
     }
   };
 
@@ -71,6 +72,17 @@ export default function Register() {
           className="register-input"
           required
         />
+
+        <select
+          name="role"
+          value={formData.role}
+          onChange={handleChange}
+          className="register-input"
+          required
+        >
+          <option value="user">User</option>
+          <option value="host">Host</option>
+        </select>
 
         <button type="submit" className="register-button">Register</button>
       </form>
